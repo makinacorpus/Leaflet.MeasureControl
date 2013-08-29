@@ -15,7 +15,7 @@ As map option :
 
 ```
 
-var map = L.map('map', {mesureControl:true});
+var map = L.map('map', {measureControl:true});
 
 ```
 
