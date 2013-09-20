@@ -23,10 +23,6 @@ L.Polyline.Measure = L.Draw.Polyline.extend({
 
         this._removeShape();
 
-        this._map.removeLayer(this._markerGroup);
-        delete this._markerGroup;
-        delete this._markers;
-
         this._map.off('click', this._onClick);
     },
 
