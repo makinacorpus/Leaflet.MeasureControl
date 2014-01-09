@@ -23,7 +23,7 @@ L.Polyline.Measure = L.Draw.Polyline.extend({
 
         this._removeShape();
 
-        this._map.off('click', this._onClick);
+        this._map.off('click', this._onClick, this);
     },
 
     _startShape: function() {
