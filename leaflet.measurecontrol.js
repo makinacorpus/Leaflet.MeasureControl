@@ -63,8 +63,6 @@ L.Polyline.Measure = L.Draw.Polyline.extend({
             this._startShape();
             return;
         }
-
-        L.Draw.Polyline.prototype._onClick.call(this, e);
     },
 
     _getTooltipText: function() {
