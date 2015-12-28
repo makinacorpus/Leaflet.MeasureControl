@@ -102,17 +102,20 @@ L.Control.MeasureControl = L.Control.extend({
     },
 
     onAdd: function(map) {
-        var className = 'leaflet-control-draw';
+        var self = this,
+            className = 'leaflet-control-draw';
 
         this._container = L.DomUtil.create('div', 'leaflet-bar');
 
         this.handler = new L.Polyline.Measure(map, this.options.handler);
 
         this.handler.on('enabled', function () {
+            self.enabled = true;
             L.DomUtil.addClass(this._container, 'enabled');
         }, this);
 
         this.handler.on('disabled', function () {
+            delete self.enabled;
             L.DomUtil.removeClass(this._container, 'enabled');
         }, this);
 
