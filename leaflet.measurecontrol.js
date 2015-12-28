@@ -29,7 +29,9 @@ L.Polyline.Measure = L.Draw.Polyline.extend({
     _startShape: function() {
         this._drawing = true;
         this._poly = new L.Polyline([], this.options.shapeOptions);
-
+        //this is added as a placeholder, if leaflet doesn't recieve this when the tool is turned off all onclick events are removed
+        this._poly._onClick = function() {};
+        
         this._container.style.cursor = 'crosshair';
 
         this._updateTooltip();
