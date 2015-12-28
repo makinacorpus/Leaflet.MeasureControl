@@ -17,13 +17,15 @@ L.Polyline.Measure = L.Draw.Polyline.extend({
         this._clearHideErrorTimeout();
 
         //!\ Still useful when control is disabled before any drawing (refactor needed?)
-        this._map.off('mousemove', this._onMouseMove);
+        this._map
+            .off('pointermove', this._onMouseMove, this)
+            .off('mousemove', this._onMouseMove, this)
+            .off('click', this._onClick, this);
+
         this._clearGuides();
         this._container.style.cursor = '';
 
         this._removeShape();
-
-        this._map.off('click', this._onClick, this);
     },
 
     _startShape: function() {
@@ -35,7 +37,9 @@ L.Polyline.Measure = L.Draw.Polyline.extend({
         this._container.style.cursor = 'crosshair';
 
         this._updateTooltip();
-        this._map.on('mousemove', this._onMouseMove, this);
+        this._map
+            .on('pointermove', this._onMouseMove, this)
+            .on('mousemove', this._onMouseMove, this);
     },
 
     _finishShape: function () {
@@ -46,7 +50,10 @@ L.Polyline.Measure = L.Draw.Polyline.extend({
 
         this._updateTooltip();
 
-        this._map.off('mousemove', this._onMouseMove, this);
+        this._map
+            .off('pointermove', this._onMouseMove, this)
+            .off('mousemove', this._onMouseMove, this);
+
         this._container.style.cursor = '';
     },
 
