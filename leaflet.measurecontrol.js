@@ -17,23 +17,29 @@ L.Polyline.Measure = L.Draw.Polyline.extend({
         this._clearHideErrorTimeout();
 
         //!\ Still useful when control is disabled before any drawing (refactor needed?)
-        this._map.off('mousemove', this._onMouseMove);
+        this._map
+            .off('pointermove', this._onMouseMove, this)
+            .off('mousemove', this._onMouseMove, this)
+            .off('click', this._onClick, this);
+
         this._clearGuides();
         this._container.style.cursor = '';
 
         this._removeShape();
-
-        this._map.off('click', this._onClick, this);
     },
 
     _startShape: function() {
         this._drawing = true;
         this._poly = new L.Polyline([], this.options.shapeOptions);
-
+        //this is added as a placeholder, if leaflet doesn't recieve this when the tool is turned off all onclick events are removed
+        this._poly._onClick = function() {};
+        
         this._container.style.cursor = 'crosshair';
 
         this._updateTooltip();
-        this._map.on('mousemove', this._onMouseMove, this);
+        this._map
+            .on('pointermove', this._onMouseMove, this)
+            .on('mousemove', this._onMouseMove, this);
     },
 
     _finishShape: function () {
@@ -44,7 +50,10 @@ L.Polyline.Measure = L.Draw.Polyline.extend({
 
         this._updateTooltip();
 
-        this._map.off('mousemove', this._onMouseMove, this);
+        this._map
+            .off('pointermove', this._onMouseMove, this)
+            .off('mousemove', this._onMouseMove, this);
+
         this._container.style.cursor = '';
     },
 
@@ -100,10 +109,12 @@ L.Control.MeasureControl = L.Control.extend({
         this.handler = new L.Polyline.Measure(map, this.options.handler);
 
         this.handler.on('enabled', function () {
+            this.enabled = true;
             L.DomUtil.addClass(this._container, 'enabled');
         }, this);
 
         this.handler.on('disabled', function () {
+            delete this.enabled;
             L.DomUtil.removeClass(this._container, 'enabled');
         }, this);
 
