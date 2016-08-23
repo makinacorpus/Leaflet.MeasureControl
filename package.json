@@ -1,0 +1,37 @@
+{
+  "name": "leaflet.measurecontrol",
+  "version": "1.0.0",
+  "description": "Leaflet control to mesure distances on the map.",
+  "main": "leaflet.measurecontrol.js",
+  "scripts": {
+    "build": "minify --output leaflet.measurecontrol.min.js leaflet.measurecontrol.js",
+    "copy": "copy leaflet.measurecontrol.min.js example && copy leaflet.measurecontrol.css example",
+    "release": "npm run build && npm run copy",
+    "deploy": "gh-pages -d example"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/makinacorpus/Leaflet.MeasureControl.git"
+  },
+  "keywords": [
+    "leaflet",
+    "measure"
+  ],
+  "author": "Makina Corpus (http://makina-corpus.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/makinacorpus/Leaflet.MeasureControl/issues"
+  },
+  "homepage": "https://github.com/makinacorpus/Leaflet.MeasureControl#readme",
+  "dependencies": {
+    "leaflet-draw": "^0.3.2"
+  },
+  "devDependencies": {
+    "copy": "^0.3.0",
+    "gh-pages": "^0.11.0",
+    "minifier": "^0.8.0"
+  },
+  "peerDependencies": {
+    "leaflet": "^0.7.3"
+  }
+}
