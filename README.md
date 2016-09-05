@@ -7,6 +7,13 @@ Requires [Leaflet.Draw](https://github.com/leaflet/Leaflet.Draw#readme)
 
 Check out the [demo](http://makinacorpus.github.io/Leaflet.MeasureControl/)
 
+Install
+-----
+
+```
+npm install leaflet.measurecontrol
+```
+
 
 Usage
 -----
@@ -26,6 +33,15 @@ Or like any control :
 
 L.Control.measureControl().addTo(map);
 
+```
+
+
+Développement
+-----
+
+```
+npm install      # install dependancies
+npm run release  # minify js and copy sources in docs (example) 
 ```
 
 

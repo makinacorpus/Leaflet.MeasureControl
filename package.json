@@ -5,9 +5,8 @@
   "main": "leaflet.measurecontrol.js",
   "scripts": {
     "build": "minify --output leaflet.measurecontrol.min.js leaflet.measurecontrol.js",
-    "copy": "copy leaflet.measurecontrol.min.js example && copy leaflet.measurecontrol.css example",
-    "release": "npm run build && npm run copy",
-    "deploy": "gh-pages -d example"
+    "copy": "copy leaflet.measurecontrol.min.js example && copy leaflet.measurecontrol.css docs",
+    "release": "npm run build && npm run copy"
   },
   "repository": {
     "type": "git",
@@ -28,7 +27,9 @@
   },
   "devDependencies": {
     "copy": "^0.3.0",
-    "gh-pages": "^0.11.0",
+    "eslint": "^3.4.0",
+    "eslint-config-airbnb-base": "^5.0.3",
+    "eslint-plugin-import": "^1.14.0",
     "minifier": "^0.8.0"
   },
   "peerDependencies": {
