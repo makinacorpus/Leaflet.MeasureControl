@@ -1,0 +1,95 @@
+html {
+    box-sizing: border-box;
+    font-family: "Helvetica", arial, sans-serif;
+}
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+* {
+    box-sizing: inherit;
+}
+body {
+    display: flex;
+    flex-direction: column;
+}
+#map {
+    position: absolute;
+    top:0;
+    left: 0;
+    right: 0;
+    bottom:0;
+}
+.leaflet-control.enabled a {
+    background-color: yellow;
+}
+
+main {
+    z-index: 1;
+    flex: 1 1 100%;
+    position: relative;
+    overflow: hidden;
+}
+header, main, footer {
+    width: 100%;
+}
+header > * {
+    vertical-align: middle;
+}
+header {
+    padding: 0.5rem 1rem;
+    background: #20273c;
+    color: white;
+    flex: none;
+    display: flex;
+    z-index: 2;
+    justify-content: space-between;
+    color: white;
+    width: 100%;
+}
+header a {
+    color: white;
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    padding: 0.7rem;
+}
+.menu {
+    float: right;
+    margin: -0.5rem;
+}
+.menu > a {
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: 700;
+    margin: 0;
+    text-decoration: none;
+    padding: 1.4rem;
+    text-align: right;
+}
+@media screen and (min-width: 1024px) {
+    .menu > a {
+        margin: 0 0.4rem;
+        height: 100%;
+    }
+}
+.menu a:first-child:hover,
+.menu a:first-child:focus {
+    text-decoration: underline;
+}
+@media screen and (min-width: 1024px) {
+  .menu .logo {
+      padding: 0.4rem;
+  }
+}
+.menu img {
+    max-height: 3rem;
+}
+.icon {
+    max-width: 70%;
+    max-height: 70%;
+    margin: 4px;
+}
