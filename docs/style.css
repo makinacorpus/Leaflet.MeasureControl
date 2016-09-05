@@ -58,7 +58,7 @@ h1 {
     padding: 0.7rem;
 }
 .menu {
-    float: right;
+    display: flex;
     margin: -0.5rem;
 }
 .menu > a {
@@ -70,21 +70,102 @@ h1 {
     padding: 1.4rem;
     text-align: right;
 }
+.menu a:hover {
+  color: #d6e61f;
+  text-decoration: none;
+}
+.menu a:hover svg path {
+  fill: #d6e61f;
+}
+.menu > a.sources {
+  display: flex;
+  align-items: center;
+}
+
+.menu a svg {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+.menu a svg path {
+    fill: #ffffff
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  display: none;
+}
+.menu-toggle.close .bar:nth-child(1) {
+  transform: translateY(7px) rotateZ(45deg);
+}
+.menu-toggle.close .bar:nth-child(2) {
+  transform: translateX(300px);
+}
+.menu-toggle.close .bar:nth-child(3) {
+  transform: translateY(-7px) rotateZ(-45deg);
+}
+.bar {
+  display: block;
+  height: 2px;
+  width: 20px;
+  margin: 5px 0;
+  background: white;
+  border-radius: 2px;
+  transition: transform 0.2s ease-out;
+}
+
 @media screen and (min-width: 1024px) {
     .menu > a {
         margin: 0 0.4rem;
         height: 100%;
     }
 }
-.menu a:first-child:hover,
-.menu a:first-child:focus {
-    text-decoration: underline;
-}
+
 @media screen and (min-width: 1024px) {
   .menu .logo {
       padding: 0.4rem;
   }
 }
+
+@media screen and (max-width: 1024px) {
+  .menu {
+    display: block;
+    text-align: right;
+    height: 100vh;
+    width: 300px;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    padding: 4.5rem 0 0.5rem;
+    background: #20273c;
+    transform: translateX(0);
+    transition: transform 0.2s ease-out;
+  }
+  .menu.closed {
+    transform: translateX(300px);
+  }
+  .menu a, .menu .dropdown {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+  }
+  .menu a.sources {
+    justify-content: flex-end;
+  }
+  .menu > a, .menu > .dropdown {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+  }
+  .menu-toggle {
+    z-index: 3;
+    display: block;
+  }
+}
+
 .menu img {
     max-height: 3rem;
 }
