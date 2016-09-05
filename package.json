@@ -5,7 +5,7 @@
   "main": "leaflet.measurecontrol.js",
   "scripts": {
     "build": "minify --output leaflet.measurecontrol.min.js leaflet.measurecontrol.js",
-    "copy": "copy leaflet.measurecontrol.min.js example && copy leaflet.measurecontrol.css docs",
+    "copy": "copy leaflet.measurecontrol.min.js docs && copy leaflet.measurecontrol.css docs",
     "release": "npm run build && npm run copy"
   },
   "repository": {
