@@ -35,6 +35,23 @@ L.Control.measureControl().addTo(map);
 
 ```
 
+Multiple Distance Strings
+-----
+
+If you would like multiple distance strings to appear in the tooltip, set `multiDistance` in the `handler` options to true. In addition, set the distance measurement systems that you would like to appear to true:
+
+```
+
+L.Control.measureControl({
+  handler: {
+    multiDistance: true,
+    metric: true,
+    imperial: true,
+    nauticalMiles: true
+  }
+}).addTo(map);
+
+```
 
 Développement
 -----
