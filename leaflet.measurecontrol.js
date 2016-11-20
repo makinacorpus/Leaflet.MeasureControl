@@ -96,6 +96,25 @@
       }
     },
 
+    _getMeasurementString: function () {
+      if (!this.options.multiDistance) {
+        return L.Draw.Polyline.prototype._getMeasurementString.call(this);
+      }
+
+      var currentLatLng = this._currentLatLng,
+          previousLatLng = this._markers[this._markers.length - 1].getLatLng(),
+          distance;
+
+      // calculate the distance from the last fixed point to the mouse position
+      distance = this._measurementRunningTotal + currentLatLng.distanceTo(previousLatLng);
+
+      var distanceStrings = [];
+      if (this.options.metric) distanceStrings.push(L.GeometryUtil.readableDistance(distance, true));
+      if (this.options.imperial) distanceStrings.push(L.GeometryUtil.readableDistance(distance, false));
+
+      return distanceStrings.join('<br/>');
+    },
+
     _getTooltipText: function () {
       var labelText = L.Draw.Polyline.prototype._getTooltipText.call(this);
       if (!this._drawing) {
