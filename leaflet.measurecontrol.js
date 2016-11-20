@@ -111,8 +111,13 @@
       var distanceStrings = [];
       if (this.options.metric) distanceStrings.push(L.GeometryUtil.readableDistance(distance, true));
       if (this.options.imperial) distanceStrings.push(L.GeometryUtil.readableDistance(distance, false));
+      if (this.options.nauticalMiles) distanceStrings.push(this._getNauticalMileDistance(distance));
 
       return distanceStrings.join('<br/>');
+    },
+
+    _getNauticalMileDistance: function (distance) {
+      return (distance / 1852).toFixed(2) + ' nmi';
     },
 
     _getTooltipText: function () {
