@@ -1,3 +1,9 @@
 .leaflet-control-draw-measure {
     background-image: url(images/measure-control.png);
 }
+
+.leaflet-draw-measure-segment-distance {
+	margin-left: 12px !important;
+    margin-top: -20px !important;
+    width: 100px !important;
+}
