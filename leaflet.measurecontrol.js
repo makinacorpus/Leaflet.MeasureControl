@@ -144,7 +144,7 @@
                   containerRect = document.querySelector('.leaflet-container').getBoundingClientRect(),
                   leftCrossing = containerRect.width+containerRect.left - event.originalEvent.x - measureRect.width,
                   originalTop = Number(this.originalToolTipStyle.marginTop.split('px')[0]),
-                  topCrossing = event.originalEvent.y - measureRect.height + originalTop,
+                  topCrossing = event.originalEvent.y-measureRect.height-containerRect.top+originalTop,
                   bottomCrossing = containerRect.height+containerRect.top - event.originalEvent.y - measureRect.height,
                   direction = topCrossing < containerRect.height/2 ? 'top' : 'bottom';
             $toolTip.style.marginLeft = leftCrossing < 0 ? leftCrossing+'px' : this.originalToolTipStyle.marginLeft;
