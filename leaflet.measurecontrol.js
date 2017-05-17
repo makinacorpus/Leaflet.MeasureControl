@@ -71,6 +71,8 @@
         _startShape: function() {
             this._drawing = true;
             this._poly = new L.Polyline([], this.options.shapeOptions);
+            this._tooltip._container.classList.add("measure-class");
+            this.originalToolTipStyle = Object.assign({},(data._tooltip._container.currentStyle || window.getComputedStyle(data._tooltip._container)));
             // this is added as a placeholder, if leaflet doesn't recieve
             // this when the tool is turned off all onclick events are removed
             this._poly._onClick = function() {};
@@ -133,6 +135,21 @@
                 newX = newCathA / (originCathA / (nextLatlng.lat - prevLatlng.lat)) + prevLatlng.lat,
                 newY = newCathB / (originCathB / (nextLatlng.lng - prevLatlng.lng)) + prevLatlng.lng;
             return { lat: newX, lng: newY };
+        },
+
+        _onMouseMove: function (event) {
+            L.Draw.Polyline.prototype._onMouseMove.call(this,event);
+            const $toolTip = document.querySelector('.measure-class'),
+                  measureRect = $toolTip.getBoundingClientRect(),
+                  containerRect = document.querySelector('.leaflet-container').getBoundingClientRect(),
+                  leftCrossing = containerRect.width+containerRect.left - event.originalEvent.x - measureRect.width,
+                  originalTop = Number(this.originalToolTipStyle.marginTop.split('px')[0]),
+                  topCrossing = event.originalEvent.y - measureRect.height + originalTop,
+                  bottomCrossing = containerRect.height+containerRect.top - event.originalEvent.y - measureRect.height,
+                  direction = topCrossing < containerRect.height/2 ? 'top' : 'bottom';
+            $toolTip.style.marginLeft = leftCrossing < 0 ? leftCrossing+'px' : this.originalToolTipStyle.marginLeft;
+            if (direction == 'top') $toolTip.style.marginTop = topCrossing < 0 ? Math.abs(topCrossing)-measureRect.height+originalTop+'px' : this.originalToolTipStyle.marginTop;
+            if (direction == 'bottom') $toolTip.style.marginTop = bottomCrossing < 0 ? bottomCrossing+'px' : this.originalToolTipStyle.marginTop;
         }
     });
 

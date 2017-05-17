@@ -7,3 +7,6 @@
     margin-top: -20px !important;
     width: 100px !important;
 }
+.measure-class {
+	pointer-events: none;
+}
