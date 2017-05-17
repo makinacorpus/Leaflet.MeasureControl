@@ -72,7 +72,7 @@
             this._drawing = true;
             this._poly = new L.Polyline([], this.options.shapeOptions);
             this._tooltip._container.classList.add("measure-class");
-            this.originalToolTipStyle = Object.assign({},(data._tooltip._container.currentStyle || window.getComputedStyle(data._tooltip._container)));
+            this.originalToolTipStyle = Object.assign({},(this._tooltip._container.currentStyle || window.getComputedStyle(this._tooltip._container)));
             // this is added as a placeholder, if leaflet doesn't recieve
             // this when the tool is turned off all onclick events are removed
             this._poly._onClick = function() {};
