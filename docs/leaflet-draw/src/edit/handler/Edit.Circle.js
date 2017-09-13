@@ -1,11 +1,10 @@
 L.Edit = L.Edit || {};
-
-L.Edit.Circle = L.Edit.SimpleShape.extend({
-	_createMoveMarker: function () {
-		var center = this._shape.getLatLng();
-
-		this._moveMarker = this._createMarker(center, this.options.moveIcon);
-	},
+/**
+ * @class L.Edit.Circle
+ * @aka Edit.Circle
+ * @inherits L.Edit.CircleMarker
+ */
+L.Edit.Circle = L.Edit.CircleMarker.extend({
 
 	_createResizeMarker: function () {
 		var center = this._shape.getLatLng(),
@@ -22,25 +21,13 @@ L.Edit.Circle = L.Edit.SimpleShape.extend({
 		return this._map.unproject([point.x + delta, point.y - delta]);
 	},
 
-	_move: function (latlng) {
-		var resizemarkerPoint = this._getResizeMarkerPoint(latlng);
-
-		// Move the resize marker
-		this._resizeMarkers[0].setLatLng(resizemarkerPoint);
-
-		// Move the circle
-		this._shape.setLatLng(latlng);
-
-		this._map.fire('draw:editmove', {layer: this._shape});
-	},
-
 	_resize: function (latlng) {
 		var moveLatLng = this._moveMarker.getLatLng(),
-			radius = moveLatLng.distanceTo(latlng);
+			radius = this._map.distance(moveLatLng, latlng);
 
 		this._shape.setRadius(radius);
 
-		this._map.fire('draw:editresize', {layer: this._shape});
+		this._map.fire(L.Draw.Event.EDITRESIZE, { layer: this._shape });
 	}
 });
 

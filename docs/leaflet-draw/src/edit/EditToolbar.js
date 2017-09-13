@@ -1,7 +1,10 @@
 /*L.Map.mergeOptions({
-	editControl: true
-});*/
-
+ editControl: true
+ });*/
+/**
+ * @class L.EditToolbar
+ * @aka EditToolbar
+ */
 L.EditToolbar = L.Toolbar.extend({
 	statics: {
 		TYPE: 'edit'
@@ -25,6 +28,7 @@ L.EditToolbar = L.Toolbar.extend({
 		featureGroup: null /* REQUIRED! TODO: perhaps if not set then all layers on the map are selectable? */
 	},
 
+	// @method intialize(): void
 	initialize: function (options) {
 		// Need to set this manually since null is an acceptable value here
 		if (options.edit) {
@@ -48,6 +52,8 @@ L.EditToolbar = L.Toolbar.extend({
 		this._selectedFeatureCount = 0;
 	},
 
+	// @method getModeHandlers(): object
+	// Get mode handlers information
 	getModeHandlers: function (map) {
 		var featureGroup = this.options.featureGroup;
 		return [
@@ -56,7 +62,7 @@ L.EditToolbar = L.Toolbar.extend({
 				handler: new L.EditToolbar.Edit(map, {
 					featureGroup: featureGroup,
 					selectedPathOptions: this.options.edit.selectedPathOptions,
-					poly : this.options.poly
+					poly: this.options.poly
 				}),
 				title: L.drawLocal.edit.toolbar.buttons.edit
 			},
@@ -70,8 +76,10 @@ L.EditToolbar = L.Toolbar.extend({
 		];
 	},
 
-	getActions: function () {
-		return [
+	// @method getActions(): object
+	// Get actions information
+	getActions: function (handler) {
+		var actions = [
 			{
 				title: L.drawLocal.edit.toolbar.actions.save.title,
 				text: L.drawLocal.edit.toolbar.actions.save.text,
@@ -85,8 +93,21 @@ L.EditToolbar = L.Toolbar.extend({
 				context: this
 			}
 		];
+
+		if (handler.removeAllLayers) {
+			 actions.push({
+                 title: L.drawLocal.edit.toolbar.actions.clearAll.title,
+                 text: L.drawLocal.edit.toolbar.actions.clearAll.text,
+                 callback: this._clearAllLayers,
+                 context: this
+             });
+		}
+
+		return actions;
 	},
 
+	// @method addToolbar(map): L.DomUtil
+	// Adds the toolbar to the map
 	addToolbar: function (map) {
 		var container = L.Toolbar.prototype.addToolbar.call(this, map);
 
@@ -97,14 +118,20 @@ L.EditToolbar = L.Toolbar.extend({
 		return container;
 	},
 
+	// @method removeToolbar(): void
+	// Removes the toolbar from the map
 	removeToolbar: function () {
 		this.options.featureGroup.off('layeradd layerremove', this._checkDisabled, this);
 
 		L.Toolbar.prototype.removeToolbar.call(this);
 	},
 
+	// @method disable(): void
+	// Disables the toolbar
 	disable: function () {
-		if (!this.enabled()) { return; }
+		if (!this.enabled()) {
+			return;
+		}
 
 		this._activeMode.handler.revertLayers();
 
@@ -113,6 +140,13 @@ L.EditToolbar = L.Toolbar.extend({
 
 	_save: function () {
 		this._activeMode.handler.save();
+		if (this._activeMode) {
+			this._activeMode.handler.disable();
+		}
+	},
+
+	_clearAllLayers:function(){
+		this._activeMode.handler.removeAllLayers();
 		if (this._activeMode) {
 			this._activeMode.handler.disable();
 		}
@@ -135,8 +169,8 @@ L.EditToolbar = L.Toolbar.extend({
 			button.setAttribute(
 				'title',
 				hasLayers ?
-				L.drawLocal.edit.toolbar.buttons.edit
-				: L.drawLocal.edit.toolbar.buttons.editDisabled
+					L.drawLocal.edit.toolbar.buttons.edit
+					: L.drawLocal.edit.toolbar.buttons.editDisabled
 			);
 		}
 
@@ -152,8 +186,8 @@ L.EditToolbar = L.Toolbar.extend({
 			button.setAttribute(
 				'title',
 				hasLayers ?
-				L.drawLocal.edit.toolbar.buttons.remove
-				: L.drawLocal.edit.toolbar.buttons.removeDisabled
+					L.drawLocal.edit.toolbar.buttons.remove
+					: L.drawLocal.edit.toolbar.buttons.removeDisabled
 			);
 		}
 	}
