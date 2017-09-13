@@ -3,15 +3,23 @@
 <head>
     <title>Leaflet.MeasureControl</title>
 
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" /> 
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+      integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+      crossorigin=""/>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="leaflet-draw/dist/leaflet.draw.css" />
     <link rel="stylesheet" href="leaflet.measurecontrol.css" />
-    <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+      integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+      crossorigin=""></script>
+    
     <script src="leaflet-draw/dist/leaflet.draw.js"></script>
 
-    <script src="https://unpkg.com/leaflet.measurecontrol@1.0.0"></script>
+    <script src="../leaflet.measurecontrol.min.js"></script>
     <style>
 
     </style>
@@ -47,7 +55,11 @@
                    .setView([48.49, 1.4], 16)
                    .addLayer(osm);
 
-        L.Control.measureControl().addTo(map);
+        L.Control.measureControl({
+          handler : {
+            feet: false
+          }
+        }).addTo(map);
     </script>
     <script src="menu.js" charset="utf-8"></script>
 </body>
