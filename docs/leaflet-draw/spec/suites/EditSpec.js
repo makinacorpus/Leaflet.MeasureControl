@@ -30,6 +30,24 @@ describe("L.Edit", function () {
 		});
 	});
 
+  describe("L.Edit.CircleMarker", function () {
+		var circleMarker;
+
+		beforeEach(function () {
+			circleMarker = new L.CircleMarker(new L.LatLng(1, 2)).addTo(map);
+			circleMarker.editing.enable();
+		});
+
+		it("Is activated correctly when editing.enable() is called.", function () {});
+
+		it("Moves the circlemarker to the correct latlng", function () {
+			var newLatLng = new L.LatLng(3, 5);
+
+			circleMarker.editing._move(newLatLng);
+			expect(circleMarker.getLatLng()).to.eql(newLatLng);
+		});
+	});
+
 	describe("L.Edit.Circle", function () {
 		var circle;
 
@@ -93,6 +111,52 @@ describe("L.Edit", function () {
 			expect(poly.editing.enabled()).to.equal(true);
 			expect(poly.options.poly.allowIntersection).to.equal(false);
 
+		});
+
+	});
+
+	describe("L.EditToolbar.Delete", function () {
+		var drawnItems,marker,circle,poly,deleteToollbar;
+
+		beforeEach(function () {
+			drawnItems = new L.FeatureGroup().addTo(map);
+			deleteToollbar = new L.EditToolbar.Delete(map, {
+				featureGroup: drawnItems
+			});
+			marker = new L.Marker(new L.LatLng(1, 2));
+			circle = new L.Circle(new L.LatLng(1, 2), 5);
+			poly = new L.Polyline(L.latLng(41, -87), L.latLng(42, -88));
+			drawnItems.addLayer(marker).addLayer(circle).addLayer(poly);
+		});
+
+		it("The drawlayer should has 3 features on it.", function () {
+			expect(drawnItems.getLayers().length).to.eql(3);
+		});
+
+		it("After clearing the drawlayer it should have no features.", function () {
+			deleteToollbar.enable();
+			deleteToollbar.removeAllLayers();
+			deleteToollbar.disable();
+			expect(drawnItems.getLayers().length).to.eql(0);
+		});
+
+		it("The map should fire the events for clearing.", function () {
+			var events = [];
+			map.on(L.Draw.Event.DELETESTART,function (event) {
+					events.push(event.type);
+	    })
+	    map.on(L.Draw.Event.DELETED,function (event) {
+	        events.push(event.type);
+	    })
+			map.on(L.Draw.Event.DELETESTOP,function (event) {
+	        events.push(event.type);
+	    })
+			deleteToollbar.enable();
+			deleteToollbar.removeAllLayers();
+			deleteToollbar.disable();
+			expect(events[0]).to.eql(L.Draw.Event.DELETESTART);
+			expect(events[1]).to.eql(L.Draw.Event.DELETED);
+			expect(events[2]).to.eql(L.Draw.Event.DELETESTOP);
 		});
 
 	});

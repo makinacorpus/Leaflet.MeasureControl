@@ -1,6 +1,55 @@
+/**
+ * @class L.Draw.Toolbar
+ * @aka Toolbar
+ *
+ * The toolbar class of the API — it is used to create the ui
+ * This will be depreciated
+ *
+ * @example
+ *
+ * ```js
+ *    var toolbar = L.Toolbar();
+ *    toolbar.addToolbar(map);
+ * ```
+ *
+ * ### Disabling a toolbar
+ *
+ * If you do not want a particular toolbar in your app you can turn it off by setting the toolbar to false.
+ *
+ * ```js
+ *      var drawControl = new L.Control.Draw({
+ *          draw: false,
+ *          edit: {
+ *              featureGroup: editableLayers
+ *          }
+ *      });
+ * ```
+ *
+ * ### Disabling a toolbar item
+ *
+ * If you want to turn off a particular toolbar item, set it to false. The following disables drawing polygons and
+ * markers. It also turns off the ability to edit layers.
+ *
+ * ```js
+ *      var drawControl = new L.Control.Draw({
+ *          draw: {
+ *              polygon: false,
+ *              marker: false
+ *          },
+ *          edit: {
+ *              featureGroup: editableLayers,
+ *              edit: false
+ *          }
+ *      });
+ * ```
+ */
 L.Toolbar = L.Class.extend({
 	includes: [L.Mixin.Events],
 
+	// @section Methods for modifying the toolbar
+
+	// @method initialize(options): void
+	// Toolbar constructor
 	initialize: function (options) {
 		L.setOptions(this, options);
 
@@ -9,16 +58,24 @@ L.Toolbar = L.Class.extend({
 		this._activeMode = null;
 	},
 
+	// @method enabled(): boolean
+	// Gets a true/false of whether the toolbar is enabled
 	enabled: function () {
 		return this._activeMode !== null;
 	},
 
+	// @method disable(): void
+	// Disables the toolbar
 	disable: function () {
-		if (!this.enabled()) { return; }
+		if (!this.enabled()) {
+			return;
+		}
 
 		this._activeMode.handler.disable();
 	},
 
+	// @method addToolbar(map): L.DomUtil
+	// Adds the toolbar to the map and returns the toolbar dom element
 	addToolbar: function (map) {
 		var container = L.DomUtil.create('div', 'leaflet-draw-section'),
 			buttonIndex = 0,
@@ -59,6 +116,8 @@ L.Toolbar = L.Class.extend({
 		return container;
 	},
 
+	// @method removeToolbar(): void
+	// Removes the toolbar and drops the handler event listeners
 	removeToolbar: function () {
 		// Dispose each handler
 		for (var handlerId in this._modes) {
@@ -116,36 +175,57 @@ L.Toolbar = L.Class.extend({
 			.on('disabled', this._handlerDeactivated, this);
 	},
 
+	/* Detect iOS based on browser User Agent, based on:
+	 * http://stackoverflow.com/a/9039885 */
+	_detectIOS: function () {
+		var iOS = (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream);
+		return iOS;
+	},
+
 	_createButton: function (options) {
 
 		var link = L.DomUtil.create('a', options.className || '', options.container);
-		link.href = '#';
+		// Screen reader tag
+		var sr = L.DomUtil.create('span', 'sr-only', options.container);
 
-		if (options.text) {
-			link.innerHTML = options.text;
-		}
+		link.href = '#';
+		link.appendChild(sr);
 
 		if (options.title) {
 			link.title = options.title;
+			sr.innerHTML = options.title;
 		}
+
+		if (options.text) {
+			link.innerHTML = options.text;
+			sr.innerHTML = options.text;
+		}
+
+		/* iOS does not use click events */
+		var buttonEvent = this._detectIOS() ? 'touchstart' : 'click';
 
 		L.DomEvent
 			.on(link, 'click', L.DomEvent.stopPropagation)
 			.on(link, 'mousedown', L.DomEvent.stopPropagation)
 			.on(link, 'dblclick', L.DomEvent.stopPropagation)
+			.on(link, 'touchstart', L.DomEvent.stopPropagation)
 			.on(link, 'click', L.DomEvent.preventDefault)
-			.on(link, 'click', options.callback, options.context);
+			.on(link, buttonEvent, options.callback, options.context);
 
 		return link;
 	},
 
 	_disposeButton: function (button, callback) {
+		/* iOS does not use click events */
+		var buttonEvent = this._detectIOS() ? 'touchstart' : 'click';
+
 		L.DomEvent
 			.off(button, 'click', L.DomEvent.stopPropagation)
 			.off(button, 'mousedown', L.DomEvent.stopPropagation)
 			.off(button, 'dblclick', L.DomEvent.stopPropagation)
+			.off(button, 'touchstart', L.DomEvent.stopPropagation)
 			.off(button, 'click', L.DomEvent.preventDefault)
-			.off(button, 'click', callback);
+			.off(button, buttonEvent, callback);
 	},
 
 	_handlerActivated: function (e) {

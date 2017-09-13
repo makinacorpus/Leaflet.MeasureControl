@@ -1,3 +1,7 @@
+/**
+ * @class L.DrawToolbar
+ * @aka Toolbar
+ */
 L.DrawToolbar = L.Toolbar.extend({
 
 	statics: {
@@ -9,9 +13,11 @@ L.DrawToolbar = L.Toolbar.extend({
 		polygon: {},
 		rectangle: {},
 		circle: {},
-		marker: {}
+		marker: {},
+		circlemarker: {}
 	},
 
+	// @method initialize(): void
 	initialize: function (options) {
 		// Ensure that the options are merged correctly since L.extend is only shallow
 		for (var type in this.options) {
@@ -26,6 +32,8 @@ L.DrawToolbar = L.Toolbar.extend({
 		L.Toolbar.prototype.initialize.call(this, options);
 	},
 
+	// @method getModeHandlers(): object
+	// Get mode handlers information
 	getModeHandlers: function (map) {
 		return [
 			{
@@ -52,11 +60,17 @@ L.DrawToolbar = L.Toolbar.extend({
 				enabled: this.options.marker,
 				handler: new L.Draw.Marker(map, this.options.marker),
 				title: L.drawLocal.draw.toolbar.buttons.marker
+			},
+			{
+				enabled: this.options.circlemarker,
+				handler: new L.Draw.CircleMarker(map, this.options.circlemarker),
+				title: L.drawLocal.draw.toolbar.buttons.circlemarker
 			}
 		];
 	},
 
-	// Get the actions part of the toolbar
+	// @method getActions(): object
+	// Get action information
 	getActions: function (handler) {
 		return [
 			{
@@ -82,6 +96,8 @@ L.DrawToolbar = L.Toolbar.extend({
 		];
 	},
 
+	// @method setOptions(): void
+	// Sets the options to the toolbar
 	setOptions: function (options) {
 		L.setOptions(this, options);
 

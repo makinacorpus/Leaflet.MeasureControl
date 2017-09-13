@@ -2,14 +2,22 @@ L.Map.mergeOptions({
 	touchExtend: true
 });
 
+/**
+ * @class L.Map.TouchExtend
+ * @aka TouchExtend
+ */
 L.Map.TouchExtend = L.Handler.extend({
 
+	// @method initialize(): void
+	// Sets TouchExtend private accessor variables
 	initialize: function (map) {
 		this._map = map;
 		this._container = map._container;
 		this._pane = map._panes.overlayPane;
 	},
 
+	// @method addHooks(): void
+	// Adds dom listener events to the map container
 	addHooks: function () {
 		L.DomEvent.on(this._container, 'touchstart', this._onTouchStart, this);
 		L.DomEvent.on(this._container, 'touchend', this._onTouchEnd, this);
@@ -26,6 +34,8 @@ L.Map.TouchExtend = L.Handler.extend({
 		}
 	},
 
+	// @method removeHooks(): void
+	// Removes dom listener events from the map container
 	removeHooks: function () {
 		L.DomEvent.off(this._container, 'touchstart', this._onTouchStart);
 		L.DomEvent.off(this._container, 'touchend', this._onTouchEnd);
@@ -54,9 +64,9 @@ L.Map.TouchExtend = L.Handler.extend({
 			touchEvent = e.touches[0];
 		} else if (e.pointerType === 'touch') {
 			touchEvent = e;
-            if (!this._filterClick(e)) {
-                return;
-            }
+			if (!this._filterClick(e)) {
+				return;
+			}
 		} else {
 			return;
 		}
@@ -75,22 +85,22 @@ L.Map.TouchExtend = L.Handler.extend({
 		});
 	},
 
-    /** Borrowed from Leaflet and modified for bool ops **/
-    _filterClick: function (e) {
-        var timeStamp = (e.timeStamp || e.originalEvent.timeStamp),
-            elapsed = L.DomEvent._lastClick && (timeStamp - L.DomEvent._lastClick);
+	/** Borrowed from Leaflet and modified for bool ops **/
+	_filterClick: function (e) {
+		var timeStamp = (e.timeStamp || e.originalEvent.timeStamp),
+			elapsed = L.DomEvent._lastClick && (timeStamp - L.DomEvent._lastClick);
 
-        // are they closer together than 500ms yet more than 100ms?
-        // Android typically triggers them ~300ms apart while multiple listeners
-        // on the same event should be triggered far faster;
-        // or check if click is simulated on the element, and if it is, reject any non-simulated events
-        if ((elapsed && elapsed > 100 && elapsed < 500) || (e.target._simulatedClick && !e._simulated)) {
-            L.DomEvent.stop(e);
-            return false;
-        }
-        L.DomEvent._lastClick = timeStamp;
-        return true;
-    },
+		// are they closer together than 500ms yet more than 100ms?
+		// Android typically triggers them ~300ms apart while multiple listeners
+		// on the same event should be triggered far faster;
+		// or check if click is simulated on the element, and if it is, reject any non-simulated events
+		if ((elapsed && elapsed > 100 && elapsed < 500) || (e.target._simulatedClick && !e._simulated)) {
+			L.DomEvent.stop(e);
+			return false;
+		}
+		L.DomEvent._lastClick = timeStamp;
+		return true;
+	},
 
 	_onTouchStart: function (e) {
 		if (!this._map._loaded) {
@@ -170,13 +180,28 @@ L.Map.TouchExtend = L.Handler.extend({
 
 L.Map.addInitHook('addHandler', 'touchExtend', L.Map.TouchExtend);
 
-// This isn't full Touch support. This is just to get makers to also support dom touch events after creation
-// #TODO: find a better way of getting markers to support touch.
+
+/**
+ * @class L.Marker.Touch
+ * @aka Marker.Touch
+ *
+ * This isn't full Touch support. This is just to get markers to also support dom touch events after creation
+ * #TODO: find a better way of getting markers to support touch.
+ */
 L.Marker.Touch = L.Marker.extend({
 
-	// This is an exact copy of https://github.com/Leaflet/Leaflet/blob/v0.7/src/layer/marker/Marker.js
-	// with the addition of the touch event son line 15.
 	_initInteraction: function () {
+		if (!this.addInteractiveTarget) {
+			// 0.7.x support
+			return this._initInteractionLegacy();
+		}
+		// TODO this may need be updated to re-add touch events for 1.0+
+		return L.Marker.prototype._initInteraction.apply(this);
+	},
+
+	// This is an exact copy of https://github.com/Leaflet/Leaflet/blob/v0.7/src/layer/marker/Marker.js
+	// with the addition of the touch events
+	_initInteractionLegacy: function () {
 
 		if (!this.options.clickable) {
 			return;
@@ -185,9 +210,19 @@ L.Marker.Touch = L.Marker.extend({
 		// TODO refactor into something shared with Map/Path/etc. to DRY it up
 
 		var icon = this._icon,
-			events = ['dblclick', 'mousedown', 'mouseover', 'mouseout', 'contextmenu', 'touchstart', 'touchend', 'touchmove'];
+			events = ['dblclick',
+					  'mousedown',
+					  'mouseover',
+					  'mouseout',
+					  'contextmenu',
+					  'touchstart',
+					  'touchend',
+					  'touchmove'];
 		if (this._detectIE) {
-			events.concat(['MSPointerDown', 'MSPointerUp', 'MSPointerMove', 'MSPointerCancel']);
+			events.concat(['MSPointerDown',
+						   'MSPointerUp',
+						   'MSPointerMove',
+						   'MSPointerCancel']);
 		} else {
 			events.concat(['touchcancel']);
 		}
@@ -208,6 +243,7 @@ L.Marker.Touch = L.Marker.extend({
 			}
 		}
 	},
+
 	_detectIE: function () {
 		var ua = window.navigator.userAgent;
 

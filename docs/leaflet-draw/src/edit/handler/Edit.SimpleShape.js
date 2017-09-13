@@ -1,5 +1,8 @@
 L.Edit = L.Edit || {};
-
+/**
+ * @class L.Edit.SimpleShape
+ * @aka Edit.SimpleShape
+ */
 L.Edit.SimpleShape = L.Handler.extend({
 	options: {
 		moveIcon: new L.DivIcon({
@@ -20,6 +23,7 @@ L.Edit.SimpleShape = L.Handler.extend({
 		}),
 	},
 
+	// @method intialize(): void
 	initialize: function (shape, options) {
 		// if touch, switch to touch icon
 		if (L.Browser.touch) {
@@ -31,6 +35,8 @@ L.Edit.SimpleShape = L.Handler.extend({
 		L.Util.setOptions(this, options);
 	},
 
+	// @method addHooks(): void
+	// Add listener hooks to this handler
 	addHooks: function () {
 		var shape = this._shape;
 		if (this._shape._map) {
@@ -47,6 +53,8 @@ L.Edit.SimpleShape = L.Handler.extend({
 		}
 	},
 
+	// @method removeHooks(): void
+	// Remove listener hooks from this handler
 	removeHooks: function () {
 		var shape = this._shape;
 
@@ -67,6 +75,8 @@ L.Edit.SimpleShape = L.Handler.extend({
 		this._map = null;
 	},
 
+	// @method updateMarkers(): void
+	// Remove the edit markers from this layer
 	updateMarkers: function () {
 		this._markerGroup.clearLayers();
 		this._initMarkers();
@@ -172,7 +182,7 @@ L.Edit.SimpleShape = L.Handler.extend({
 			var corners = this._getCorners(),
 				marker = e.target,
 				currentCornerIndex = marker._cornerIndex;
-			
+
 			marker.setOpacity(0);
 
 			// Copyed from Edit.Rectangle.js line 23 _onMarkerDragStart()
@@ -180,7 +190,7 @@ L.Edit.SimpleShape = L.Handler.extend({
 			this._oppositeCorner = corners[(currentCornerIndex + 2) % 4];
 			this._toggleCornerMarkers(0, currentCornerIndex);
 		}
-	
+
 		this._shape.fire('editstart');
 	},
 
@@ -196,7 +206,7 @@ L.Edit.SimpleShape = L.Handler.extend({
 		}
 
 		this._shape.redraw();
-		
+
 		// prevent touchcancel in IOS
 		// e.preventDefault();
 		return false;

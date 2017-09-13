@@ -5,6 +5,47 @@ Leaflet.draw Changelog
 
 An in-progress version being developed on the master branch.
 
+## 0.4.10 (July 3, 2017)
+
+ * Locking Leaflet version to 0.7.x-1.0.x
+ * Polygon line length, square kilometers and configurable precision
+ * fix for _getMeasurementString
+ * Locale number formatting added
+
+## 0.4.2 (November 7, 2016)
+
+### Improvements
+
+ * Documentation is now automatically generated
+ * L.Draw.Event is new, has all events in string format
+
+### Bugfixes
+
+ * Travis tests
+
+## 0.4.1 (October 21, 2016)
+ 
+### Bugfixes
+
+ * fix markers becomming invisible when in edit mode
+ * Fix linking for EditPolyOptions
+ * Fixes very minor issue in readme with invalid variable name
+
+## 0.4.0 (October 13, 2016)
+
+### Improvements
+
+ * Add support for Leaflet 1.0.0+
+
+### Bugfixes
+
+ * New L.Draw.Tooltip to mitigate L.Tooltip collision
+ 
+### Potential Issues
+
+ * Several namespace changes, see BREAKINGCHANGES.md
+ * Cross support for both 0.7.0 and 1.0.0
+
 ## 0.3.0 (March 09, 2016)
 
 ### Improvements
