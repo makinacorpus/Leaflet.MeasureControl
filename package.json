@@ -4,7 +4,7 @@
   "description": "Leaflet control to mesure distances on the map.",
   "main": "leaflet.measurecontrol.js",
   "scripts": {
-    "build": "minify --output leaflet.measurecontrol.min.js leaflet.measurecontrol.js"
+    "build": "uglifyjs leaflet.measurecontrol.js --output leaflet.measurecontrol.min.js"
   },
   "repository": {
     "type": "git",
@@ -27,7 +27,7 @@
     "eslint": "^3.4.0",
     "eslint-config-airbnb-base": "^5.0.3",
     "eslint-plugin-import": "^1.14.0",
-    "minifier": "^0.8.0"
+    "uglify-js": "~3.3.13"
   },
   "peerDependencies": {
     "leaflet": "^0.7.3"
