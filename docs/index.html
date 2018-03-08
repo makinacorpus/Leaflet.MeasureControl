@@ -49,6 +49,21 @@
 
         L.Control.measureControl().addTo(map);
     </script>
-    <script src="menu.js" charset="utf-8"></script>
+
+    <script type="text/javascript">
+        function toggleMenu () {
+            var toggle = document.querySelector('.menu-toggle');
+            var menu = document.querySelector('.menu');
+            toggle.classList.toggle('close');
+            menu.classList.toggle('closed');
+        }
+
+        function initMenu () {
+            var toggle = document.querySelector('.menu-toggle');
+            toggle.addEventListener('click', toggleMenu);
+        }
+
+        initMenu();
+    </script>
 </body>
 </html>
