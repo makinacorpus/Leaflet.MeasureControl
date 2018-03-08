@@ -4,9 +4,7 @@
   "description": "Leaflet control to mesure distances on the map.",
   "main": "leaflet.measurecontrol.js",
   "scripts": {
-    "build": "minify --output leaflet.measurecontrol.min.js leaflet.measurecontrol.js",
-    "copy": "copy leaflet.measurecontrol.min.js docs && copy leaflet.measurecontrol.css docs",
-    "release": "npm run build && npm run copy"
+    "build": "minify --output leaflet.measurecontrol.min.js leaflet.measurecontrol.js"
   },
   "repository": {
     "type": "git",
