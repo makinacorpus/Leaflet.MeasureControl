@@ -21,9 +21,6 @@
     "url": "https://github.com/makinacorpus/Leaflet.MeasureControl/issues"
   },
   "homepage": "https://github.com/makinacorpus/Leaflet.MeasureControl#readme",
-  "dependencies": {
-    "leaflet-draw": "^0.3.2"
-  },
   "devDependencies": {
     "eslint": "^3.4.0",
     "eslint-config-airbnb-base": "^5.0.3",
@@ -31,6 +28,7 @@
     "uglify-js": "~3.3.13"
   },
   "peerDependencies": {
+    "leaflet-draw": "^0.3.2",
     "leaflet": "^0.7.3"
   }
 }
