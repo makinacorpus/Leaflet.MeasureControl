@@ -2,7 +2,7 @@
   // define an AMD module that relies on 'leaflet'
   if (typeof define === 'function' && define.amd) {
     define(['leaflet'], function (L) {
-        factory(L, window.toGeoJSON);
+      factory(L, window.toGeoJSON);
     });
 
     // define a Common JS module that relies on 'leaflet'

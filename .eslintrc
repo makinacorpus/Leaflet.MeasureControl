@@ -1,6 +1,12 @@
 {
   "extends": "airbnb-base/legacy",
+  "env": {
+    "browser": true,
+    "amd": true
+  },
   "rules": {
+    "func-names": ["off"],
+    "global-require": ["off"],
     "no-console": 1,
     "no-param-reassign": 0,
     "no-underscore-dangle": 0,
