@@ -1,15 +1,25 @@
 {
-  "extends": "airbnb-base/legacy",
+  "extends": "makina",
   "env": {
     "browser": true,
-    "amd": true
+    "amd": true,
+    "es6": false
+  },
+  "parserOptions": {
+    "ecmaVersion": 5,
+    "sourceType": "script"
   },
   "rules": {
+    "comma-dangle": ["off"],
     "func-names": ["off"],
     "global-require": ["off"],
+    "indent": [2, 2, { "SwitchCase": 1, "VariableDeclarator": 1, "outerIIFEBody": 1 }],
     "no-console": 1,
     "no-param-reassign": 0,
     "no-underscore-dangle": 0,
-    "indent": [2, 2, { "SwitchCase": 1, "VariableDeclarator": 1, "outerIIFEBody": 1 }]
+    "no-var": ["off"],
+    "object-shorthand": ["off"],
+    "prefer-template": ["off"],
+    "prefer-arrow-callback": ["off"]
   }
 }
