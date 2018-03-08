@@ -4,7 +4,8 @@
   "description": "Leaflet control to mesure distances on the map.",
   "main": "leaflet.measurecontrol.js",
   "scripts": {
-    "build": "uglifyjs leaflet.measurecontrol.js --output leaflet.measurecontrol.min.js"
+    "build": "uglifyjs leaflet.measurecontrol.js --output leaflet.measurecontrol.min.js",
+    "lint": "eslint leaflet.measurecontrol.js"
   },
   "repository": {
     "type": "git",
