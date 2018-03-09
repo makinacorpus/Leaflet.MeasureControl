@@ -1,6 +1,6 @@
 {
   "name": "leaflet.measurecontrol",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Leaflet control to mesure distances on the map.",
   "main": "leaflet.measurecontrol.js",
   "scripts": {
