@@ -10,7 +10,7 @@
     module.exports = function (L) {
       if (L === undefined) {
         if (typeof window !== 'undefined') {
-          L = require('leaflet');
+          L = require('leaflet'); // eslint-disable-line import/no-unresolved
         }
       }
       factory(L);
@@ -40,9 +40,9 @@
 
       // !\ Still useful when control is disabled before any drawing (refactor needed?)
       this._map
-      .off('pointermove', this._onMouseMove, this)
-      .off('mousemove', this._onMouseMove, this)
-      .off('click', this._onClick, this);
+        .off('pointermove', this._onMouseMove, this)
+        .off('mousemove', this._onMouseMove, this)
+        .off('click', this._onClick, this);
 
       this._clearGuides();
       this._container.style.cursor = '';
@@ -61,8 +61,8 @@
 
       this._updateTooltip();
       this._map
-      .on('pointermove', this._onMouseMove, this)
-      .on('mousemove', this._onMouseMove, this);
+        .on('pointermove', this._onMouseMove, this)
+        .on('mousemove', this._onMouseMove, this);
     },
 
     _finishShape: function () {
@@ -74,8 +74,8 @@
       this._updateTooltip();
 
       this._map
-      .off('pointermove', this._onMouseMove, this)
-      .off('mousemove', this._onMouseMove, this);
+        .off('pointermove', this._onMouseMove, this)
+        .off('mousemove', this._onMouseMove, this);
 
       this._container.style.cursor = '';
     },
@@ -92,7 +92,6 @@
       if (!this._drawing) {
         this._removeShape();
         this._startShape();
-        return;
       }
     },
 
@@ -146,9 +145,9 @@
       link.title = L.Control.MeasureControl.TITLE;
 
       L.DomEvent
-      .addListener(link, 'click', L.DomEvent.stopPropagation)
-      .addListener(link, 'click', L.DomEvent.preventDefault)
-      .addListener(link, 'click', this.toggle, this);
+        .addListener(link, 'click', L.DomEvent.stopPropagation)
+        .addListener(link, 'click', L.DomEvent.preventDefault)
+        .addListener(link, 'click', this.toggle, this);
 
       return this._container;
     }
