@@ -40,13 +40,7 @@ npm run release  # minify js and copy sources in docs (example)
 Changelog
 ---------
 
-### 1.1.0
-* Add npm support
-* Add support for AMD and CommonJS loading
-* Set example in docs folder
-
-### 1.0.0
-* Initial version
+See [CHANGELOG.md](./CHANGELOG.md).
 
 Authors
 -------
