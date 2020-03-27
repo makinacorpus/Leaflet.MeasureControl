@@ -28,9 +28,8 @@
     "eslint-config-makina": "~0.3.0",
     "eslint-plugin-import": "~2.9.0"
   },
-  "peerDependencies": {
-    "leaflet-draw": "^0.3.2",
-    "leaflet": "^0.7.3"
-  },
-  "dependencies": {}
+  "dependencies": {
+    "leaflet-draw": "^1.0.4",
+    "leaflet": "^1.6.0"
+  }
 }
