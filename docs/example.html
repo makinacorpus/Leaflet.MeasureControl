@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>l</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+
+    <!-- Dependency to Leaflet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+
+    <!-- Dependency to Leaflet Draw -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.3.2/leaflet.draw.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.3.2/leaflet.draw.js"></script>
+
+    <!-- Files from current project -->
+    <link rel="stylesheet" href="../leaflet.measurecontrol.css" />
+    <script src="../leaflet.measurecontrol.js"></script>
+</head>
+<body>
+    <main>
+      <div id="map" style="width: 100%; height: 100vh; display: block;"></div>
+    </main>
+
+    <script type="text/javascript">
+        var osm = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Map data &copy; 2013 OpenStreetMap contributors',
+        });
+
+        var map = L.map('map')
+                   .setView([48.49, 1.4], 16)
+                   .addLayer(osm);
+
+        L.Control.measureControl().addTo(map);
+    </script>
+
+    <script type="text/javascript">
+        function toggleMenu () {
+            var toggle = document.querySelector('.menu-toggle');
+            var menu = document.querySelector('.menu');
+            toggle.classList.toggle('close');
+            menu.classList.toggle('closed');
+        }
+
+        function initMenu () {
+            var toggle = document.querySelector('.menu-toggle');
+            toggle.addEventListener('click', toggleMenu);
+        }
+
+        initMenu();
+    </script>
+</body>
+</html>
