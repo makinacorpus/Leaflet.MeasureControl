@@ -1,19 +1,19 @@
 /*
- * Leaflet.MeasureControl — port per Leaflet v2 (>= 2.0.0-alpha.1)
- * https://github.com/makinacorpus/Leaflet.MeasureControl (originale, Leaflet v1 + Leaflet.Draw)
+ * Leaflet.MeasureControl, port to Leaflet v2 (>= 2.0.0-alpha.1)
+ * https://github.com/makinacorpus/Leaflet.MeasureControl (1.x: Leaflet 0.7/1.x + Leaflet.Draw)
  *
- * Differenze rispetto all'originale:
- *  - Non dipende più da Leaflet.Draw (che non supporta Leaflet v2):
- *    la logica di disegno/misura è reimplementata qui in modo autonomo.
- *  - Modulo ESM con classi native, come richiesto da Leaflet v2.
- *  - Eventi pointer ('pointermove') al posto degli eventi mouse.
+ * Differences from 1.x:
+ *  - No dependency on Leaflet.Draw (which does not support Leaflet v2):
+ *    drawing and measuring are implemented here.
+ *  - ESM module with native classes, as required by Leaflet v2.
+ *  - Pointer events ('pointermove') instead of mouse events.
  *
- * Uso:
+ * Usage:
  *   import { Map, TileLayer } from 'leaflet';
  *   import { MeasureControl } from './leaflet.measurecontrol.js';
  *
  *   const map = new Map('map', { measureControl: true, center: [...], zoom: ... });
- *   // oppure:
+ *   // or:
  *   new MeasureControl().addTo(map);
  */
 
@@ -50,7 +50,7 @@ const DEFAULT_HANDLER_OPTIONS = {
     fillOpacity: 1,
     bubblingPointerEvents: false,
   },
-  metric: true, // false: piedi/miglia
+  metric: true, // false: feet/miles
   texts: {
     start: 'Click to start drawing line',
     cont: 'Click to continue drawing line',
@@ -59,9 +59,9 @@ const DEFAULT_HANDLER_OPTIONS = {
 };
 
 /**
- * Handler di misura: sostituisce L.Polyline.Measure (che estendeva L.Draw.Polyline).
- * Estende Evented per mantenere l'API a eventi dell'originale ('enabled'/'disabled')
- * e aggiunge 'measurefinish' con { latlngs, distance } a fine misurazione.
+ * Measuring handler, replaces L.Polyline.Measure (which extended L.Draw.Polyline).
+ * Extends Evented to keep the 1.x events ('enabled'/'disabled')
+ * and adds 'measurefinish' with { latlngs, distance } when a measure ends.
  */
 class MeasureHandler extends Evented {
   constructor(map, options = {}) {
@@ -107,7 +107,7 @@ class MeasureHandler extends Evented {
     const map = this._map;
     this._layerGroup = new LayerGroup().addTo(map);
 
-    // Il doppio click chiude la misura: lo zoom su dblclick va sospeso.
+    // Double click ends the measure, so double click zoom is suspended.
     this._restoreDoubleClickZoom = !!(map.doubleClickZoom && map.doubleClickZoom.enabled());
     if (this._restoreDoubleClickZoom) map.doubleClickZoom.disable();
 
@@ -176,7 +176,7 @@ class MeasureHandler extends Evented {
       this._guide = null;
     }
     this._map.getContainer().style.cursor = '';
-    this._setTooltip(''); // come l'originale: tooltip vuoto a misura conclusa
+    this._setTooltip(''); // as in 1.x: empty tooltip once the measure ends
 
     this.fire('measurefinish', {
       latlngs: this._latlngs.slice(),
@@ -187,7 +187,7 @@ class MeasureHandler extends Evented {
   _onMapClick(e) {
     if (!this._enabled) return;
 
-    // A misura conclusa, un nuovo click pulisce e riparte (comportamento originale).
+    // Once a measure ends, a new click clears it and starts a new one (as in 1.x).
     if (!this._drawing) {
       this._clearShape();
       this._startShape();
@@ -201,8 +201,8 @@ class MeasureHandler extends Evented {
     this._poly.addLatLng(latlng);
 
     const marker = new CircleMarker(latlng, this.options.vertexOptions).addTo(this._layerGroup);
-    // Click sull'ultimo vertice = chiudi la linea (bubblingPointerEvents: false
-    // evita che lo stesso click arrivi anche alla mappa come nuovo punto).
+    // A click on the last vertex ends the line (bubblingPointerEvents: false
+    // keeps the same click from reaching the map as a new point).
     marker.on('click', () => {
       const isLast = this._markers[this._markers.length - 1] === marker;
       if (this._drawing && isLast && this._latlngs.length > 1) {
@@ -255,7 +255,7 @@ class MeasureHandler extends Evented {
       : `${Math.round(feet)} ft`;
   }
 
-  // --- Tooltip che segue il cursore (sostituisce L.Draw.Tooltip) ---
+  // --- Tooltip following the cursor (replaces L.Draw.Tooltip) ---
 
   _createTooltip() {
     this._tooltip = document.createElement('div');
@@ -278,9 +278,16 @@ class MeasureHandler extends Evented {
       return;
     }
     this._tooltip.style.display = '';
-    this._tooltip.innerHTML =
-      `<span class="leaflet-measure-tooltip-label">${label}</span>` +
-      (distance ? `<span class="leaflet-measure-tooltip-distance">${distance}</span>` : '');
+    const labelNode = document.createElement('span');
+    labelNode.className = 'leaflet-measure-tooltip-label';
+    labelNode.textContent = label;
+    this._tooltip.replaceChildren(labelNode);
+    if (distance) {
+      const distanceNode = document.createElement('span');
+      distanceNode.className = 'leaflet-measure-tooltip-distance';
+      distanceNode.textContent = distance;
+      this._tooltip.append(distanceNode);
+    }
   }
 
   _moveTooltip(containerPoint) {
@@ -334,7 +341,7 @@ class MeasureControl extends Control {
   }
 }
 
-// Parità con l'originale: new Map('map', { measureControl: true })
+// Same map option as 1.x: new Map('map', { measureControl: true })
 LeafletMap.mergeOptions({ measureControl: false });
 LeafletMap.addInitHook(function () {
   if (this.options.measureControl) {
