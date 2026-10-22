@@ -1,4 +1,16 @@
 
+2.0.0-alpha.1 / 2026-07-09
+==========================
+
+  * Port to Leaflet v2 (>= 2.0.0-alpha.1)
+  * Remove the Leaflet.Draw dependency: measuring logic is now self-contained
+  * Rewrite as an ESM module with native ES classes (no more `L` global)
+  * Use pointer events (`pointermove`) instead of mouse events
+  * Replace the PNG control icon with an inline SVG (no image assets needed)
+  * New `measurefinish` event on the handler with `{ latlngs, distance }`
+  * New handler options: `metric`, `shapeOptions`, `guideOptions`, `vertexOptions`, `texts` (i18n)
+  * Escape key deactivates the tool
+
 1.2.0 / 2018-03-09
 ==================
 

@@ -1,43 +1,68 @@
-<a href="https://www.npmjs.com/package/leaflet.measurecontrol"><img alt="npm" src="https://img.shields.io/npm/dt/leaflet.measurecontrol"></a>
-<a href="https://www.npmjs.com/package/leaflet.measurecontrol"><img alt="npm" src= "https://img.shields.io/npm/v/leaflet.measurecontrol?color=red"></a>
+Leaflet.MeasureControl (Leaflet v2 port)
+========================================
 
-Leaflet.MeasureControl
-======================
+Leaflet control to measure distances on the map.
 
-Leaflet control to mesure distances on the map.
+**This branch is a port for [Leaflet v2](https://leafletjs.com/2025/05/18/leaflet-2.0.0-alpha.html) (>= 2.0.0-alpha.1).**
+Unlike the original plugin, it no longer depends on [Leaflet.Draw](https://github.com/leaflet/Leaflet.Draw)
+(which does not support Leaflet v2): the measuring logic is now self-contained.
 
-Requires [Leaflet.Draw](https://github.com/leaflet/Leaflet.Draw#readme)
+For Leaflet 0.7.x / 1.x, use the original plugin on the
+[`master` branch of makinacorpus/Leaflet.MeasureControl](https://github.com/makinacorpus/Leaflet.MeasureControl).
 
-Check out the [demo](http://makinacorpus.github.io/Leaflet.MeasureControl/)
+Features
+--------
 
-Install
--------
-
-```shell
-npm install leaflet.measurecontrol
-```
+* Click on the map to add measurement points; a tooltip follows the cursor showing the running distance (m/km, or ft/mi with `metric: false`).
+* Finish the line with a double click or by clicking the last point.
+* Click again to clear and start a new measurement; press <kbd>Escape</kbd> to deactivate.
+* Fires a `measurefinish` event with `{ latlngs, distance }` (distance in meters).
 
 Usage
 -----
 
+Leaflet v2 is ESM-only, so import the plugin as a module:
+
+```js
+import { Map, TileLayer } from 'leaflet';
+import { MeasureControl } from 'leaflet.measurecontrol';
+import 'leaflet.measurecontrol/leaflet.measurecontrol.css';
+```
+
 As map option:
 
 ```js
-var map = L.map('map', { measureControl:true });
+const map = new Map('map', { measureControl: true });
 ```
 
 Or like any control:
 
 ```js
-L.Control.measureControl().addTo(map);
+const measureControl = new MeasureControl().addTo(map);
+
+measureControl.handler.on('measurefinish', (e) => {
+  console.log(e.distance, e.latlngs);
+});
 ```
 
-Development
------------
+Options
+-------
 
-```shell
-npm install      # install dependencies
-npm run release  # minify js and copy sources in docs (example)
+```js
+new MeasureControl({
+  position: 'topleft',
+  handler: {
+    metric: true,                        // false: feet/miles
+    shapeOptions: { color: '#3388ff' },  // measured polyline style
+    guideOptions: { /* ... */ },         // dashed guide line style
+    vertexOptions: { /* ... */ },        // vertex CircleMarker style
+    texts: {                             // i18n
+      start: 'Click to start drawing line',
+      cont: 'Click to continue drawing line',
+      end: 'Click last point to finish line'
+    }
+  }
+});
 ```
 
 Changelog
