@@ -32,6 +32,23 @@ Or like any control:
 L.Control.measureControl().addTo(map);
 ```
 
+Multiple distance strings
+-------------------------
+
+To show the distance in several measurement systems in the tooltip, set
+`multiDistance` to true in the `handler` options, and enable the systems to show:
+
+```js
+L.Control.measureControl({
+  handler: {
+    multiDistance: true,
+    metric: true,
+    imperial: true,
+    nauticalMiles: true
+  }
+}).addTo(map);
+```
+
 Development
 -----------
 
