@@ -10,6 +10,7 @@
   * New `measurefinish` event on the handler with `{ latlngs, distance }`
   * New handler options: `metric`, `shapeOptions`, `guideOptions`, `vertexOptions`, `texts` (i18n)
   * Escape key deactivates the tool
+  * New `segmentsDistance` handler option to show the length of each segment (idea from #19)
 
 1.2.0 / 2018-03-09
 ==================

@@ -23,6 +23,8 @@ import {
   LayerGroup,
   Polyline,
   CircleMarker,
+  Marker,
+  DivIcon,
   DomEvent,
   Map as LeafletMap,
 } from 'leaflet';
@@ -51,6 +53,7 @@ const DEFAULT_HANDLER_OPTIONS = {
     bubblingPointerEvents: false,
   },
   metric: true, // false: feet/miles
+  segmentsDistance: false, // true: show the length of each segment
   texts: {
     start: 'Click to start drawing line',
     cont: 'Click to continue drawing line',
@@ -199,6 +202,9 @@ class MeasureHandler extends Evented {
 
     this._latlngs.push(latlng);
     this._poly.addLatLng(latlng);
+    if (this.options.segmentsDistance && last) {
+      this._addSegmentLabel(last, latlng);
+    }
 
     const marker = new CircleMarker(latlng, this.options.vertexOptions).addTo(this._layerGroup);
     // A click on the last vertex ends the line (bubblingPointerEvents: false
@@ -233,6 +239,23 @@ class MeasureHandler extends Evented {
       this._latlngs.length > 1 ? this.options.texts.end : this.options.texts.cont,
       this._readableDistance(total)
     );
+  }
+
+  _addSegmentLabel(from, to) {
+    // Middle of the segment as drawn on the map (projected coordinates)
+    const zoom = this._map.getZoom();
+    const middle = this._map.unproject(
+      this._map.project(from, zoom).add(this._map.project(to, zoom)).divideBy(2),
+      zoom
+    );
+    const text = document.createElement('span');
+    text.textContent = this._readableDistance(this._map.distance(from, to));
+    const icon = new DivIcon({
+      className: 'leaflet-measure-segment-distance',
+      html: text,
+      iconSize: null,
+    });
+    new Marker(middle, { icon, interactive: false, keyboard: false }).addTo(this._layerGroup);
   }
 
   _measure(latlngs) {

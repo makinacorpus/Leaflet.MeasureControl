@@ -53,6 +53,7 @@ new MeasureControl({
   position: 'topleft',
   handler: {
     metric: true,                        // false: feet/miles
+    segmentsDistance: false,             // true: show the length of each segment
     shapeOptions: { color: '#3388ff' },  // measured polyline style
     guideOptions: { /* ... */ },         // dashed guide line style
     vertexOptions: { /* ... */ },        // vertex CircleMarker style

@@ -37,3 +37,14 @@
     font-weight: bold;
     color: #3388ff;
 }
+
+.leaflet-measure-segment-distance span {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 3px;
+    padding: 1px 4px;
+    font: 11px/1.4 "Helvetica Neue", Arial, Helvetica, sans-serif;
+    color: #222;
+    white-space: nowrap;
+}
