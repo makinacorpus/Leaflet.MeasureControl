@@ -1,7 +1,9 @@
 
-1.2.0 / 2018-03-09
+1.2.0 / 2026-10-22
 ==================
 
+  * Allow Leaflet 1.x and Leaflet.Draw 1.x (peer dependencies `leaflet >=0.7 <2`, `leaflet-draw >=0.3.2 <2`)
+  * Add `multiDistance` option: show the distance in several units at once, nautical miles included (#18, thanks rmlanman)
   * Put changelog in a dedicated file
   * Lint README file and add languages to code blocks
   * Enforce new ESLint setup
