@@ -29,8 +29,8 @@
     "eslint-plugin-import": "~2.9.0"
   },
   "peerDependencies": {
-    "leaflet-draw": "^0.3.2",
-    "leaflet": "^0.7.3"
+    "leaflet-draw": ">=0.3.2 <2",
+    "leaflet": ">=0.7 <2"
   },
   "dependencies": {}
 }
